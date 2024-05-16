@@ -9,6 +9,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-echarts/go-echarts/v2/charts"
@@ -99,7 +100,37 @@ func plotCharts(dataf, origName []string, xTitle, yTitle string, c1x, r1h, smoot
 	return dstFile.Name(), nil
 }
 
+// delete files which are created one week ago
+func delOldFiles(d string) error {
+	return filepath.Walk(d, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		oldTs := time.Now().AddDate(0, 0, -7)
+		if info.ModTime().Before(oldTs) {
+			return os.Remove(path)
+		}
+		return nil
+	})
+}
+
 func Start() error {
+	go func() {
+		ticker := time.NewTicker(24 * time.Hour)
+		for {
+			select {
+			case <-ticker.C:
+				delOldFiles(OUTPUT)
+				delOldFiles(TMP)
+			}
+		}
+	}()
+
 	r := gin.Default()
 	r.Static("/static", STATIC)
 	r.Static("/output", OUTPUT)
