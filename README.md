@@ -1,6 +1,6 @@
 # About
 
-A simple utility for ploting lines based on csv data.
+A simple utility for ploting lines based on csv files.
 
 # Build
 

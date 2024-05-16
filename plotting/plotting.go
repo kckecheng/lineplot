@@ -176,8 +176,8 @@ func LinePlot(title, xTitle, yTitle string, xAxis []any, seriesNames []string, s
 	return line, nil
 }
 
-func GenCharts(output string, lines []*charts.Line) error {
-	if output == "" {
+func GenCharts(fp *os.File, lines []*charts.Line) error {
+	if fp == nil {
 		return errors.New("output plotting file must be specified")
 	}
 
@@ -188,9 +188,5 @@ func GenCharts(output string, lines []*charts.Line) error {
 	}
 
 	// create html file for holding the chart
-	f, err := os.Create(output)
-	if err != nil {
-		return err
-	}
-	return page.Render(io.MultiWriter(f))
+	return page.Render(io.MultiWriter(fp))
 }
