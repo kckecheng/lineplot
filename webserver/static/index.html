@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilot Lines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        #uploadForm {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            margin-right: 10px;
+            white-space: nowrap; /* Ensures the label does not wrap to the next line */
+        }
+        #uploadForm input[type=text],
+        #uploadForm input[type=file] {
+            flex-grow: 1; /* Allows the input to grow and fill available space */
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #uploadForm button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #uploadForm button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plot lines based on csv files</h1>
+    </header>
+    <div id="body">
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="files">CSV Files: </label>
+                <input type="file" id="files" name="files" multiple required>
+            </div>
+
+            <div class="form-group">
+                <label for="title">X Name: </label>
+                <input type="text" id="xaxis" name="xaxis" value="x" required>
+            </div>
+            <div class="form-group">
+                <label for="title">Y Name: </label>
+                <input type="text" id="yaxis" name="yaxis" value="y" required>
+            </div>
+
+						<div class="form-group">
+								<label>Use the 1st column for x axis: </label>
+								<input type="radio" id="c1xt" name="c1x" value=true checked>
+								<label for="c1xt">True</label>
+								<input type="radio" id="c1xf" name="c1x" value=false>
+								<label for="c1xf">False</label>
+						</div>
+
+						<div class="form-group">
+								<label>Use the 1st row for series names: </label>
+								<input type="radio" id="r1ht" name="r1h" value=true checked>
+								<label for="r1ht">True</label>
+								<input type="radio" id="r1hf" name="r1h" value=false>
+								<label for="r1hf">False</label>
+						</div>
+
+						<div class="form-group">
+								<label>Smooth: </label>
+								<input type="radio" id="smootht" name="smooth" value=true>
+								<label for="smootht">True</label>
+								<input type="radio" id="smoothf" name="smooth" value=false checked>
+								<label for="smoothf">False</label>
+						</div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = function(event) {
+            var form = this;
+            if (form.files.value === '' || form.xaxis.value === '' || form.yaxis.value === '') {
+                alert('Please fill in required fields');
+                event.preventDefault();
+            }
+        };
+    </script>
+</body>
+</html>

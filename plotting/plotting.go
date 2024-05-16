@@ -43,7 +43,7 @@ func LoadData(csvf string, c1x, r1h bool) ([]any, []string, [][]any, error) {
 	if c1x {
 		cindex = 1
 	}
-	// whether to use the 1st row for heading
+	// whether to use the 1st row for heading(series names)
 	rindex := 0
 	if r1h {
 		rindex = 1
